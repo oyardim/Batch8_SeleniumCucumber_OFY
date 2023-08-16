@@ -1,52 +1,82 @@
 package com.eurotech.stepDefinitions;
 
+import com.eurotech.pages.LoginPage;
+import com.eurotech.utilities.BrowserUtils;
+import com.eurotech.utilities.ConfigurationReader;
+import com.eurotech.utilities.Driver;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
+
+import java.util.List;
+import java.util.Map;
 
 public class Login_StepDefs {
+    LoginPage loginPage = new LoginPage();
+
     @Given("The user is on the login page")
     public void the_user_is_on_the_login_page() {
-        System.out.println("I open browser and navigate to kraft login page");
+        Driver.get().get(ConfigurationReader.get("url"));
     }
 
     @When("The user enters dd's credentials")
     public void the_user_enters_dd_s_credentials() {
-        System.out.println("I enter dd's credentials");
+        loginPage.login();
     }
 
     @Then("The user should be able to login")
     public void the_user_should_be_able_to_login() {
-        System.out.println("I can login to the web page");
+        String actualUrl = Driver.get().getCurrentUrl();
+        String expectedUrl = "https://www.krafttechexlab.com/index";
+        Assert.assertEquals(expectedUrl, actualUrl);
     }
 
     @When("The user enters mike's credentials")
     public void the_user_enters_mike_s_credentials() {
-        System.out.println("I enter mike's credentials");
+        loginPage.login("mike@gmail.com","mike1234");
     }
 
     @When("The user enters Rosa's credentials")
     public void the_user_enters_rosa_s_credentials() {
-        System.out.println("I enter Rosa's credentials");
+        loginPage.login("rosa@test.com", "Test123456");
     }
 
-    @When("The user enters Mansimmos's email")
-    public void the_user_enters_mansimmos_s_email() {
-        System.out.println("Enters mansimmos email");
+    @When("The user enters John's credentials")
+    public void the_user_enters_john_s_credentials() {
+        loginPage.login("john@gmail.com", "John1234.");
     }
 
-    @When("The user enters Mansimmo's password")
-    public void the_user_enters_mansimmo_s_password() {
-        System.out.println("Enters mansimmos password");
+    @When("The user logs in with using credentials {string} and {string}")
+    public void the_user_logs_in_with_using_credentials_and(String userEmail, String password) {
+        loginPage.login(userEmail, password);
     }
 
-    @When("The user clicks on login button")
-    public void the_user_clicks_on_login_button() {
-        System.out.println("Clicks on login button");
+    @When("The user logs in following menu")
+    public void theUserLogsInFollowingMenu(Map<String, String> userCredentials) {
+        System.out.println("userCredentials = " + userCredentials);
+
+        loginPage.login(
+                userCredentials.get("usermail"),
+                userCredentials.get("password")
+        );
     }
 
-    @Then("The user should be able to see own username")
-    public void the_user_should_be_able_to_see_own_username() {
-        System.out.println("Can be able to see own username");
+    @Then("Verify that warning message is {string}")
+    public void verify_that_warning_message_is(String expectedMessage) {
+        BrowserUtils.waitFor(2);
+        String actualMessage = loginPage.getWarningMessageText(expectedMessage);
+        Assert.assertEquals(expectedMessage, actualMessage);
+    }
+
+    @And("The number is {int}")
+    public void theNumberIs(int number) {
+        System.out.println("number = " + number);
+    }
+
+    @When("The user logins with following credentials")
+    public void theUserLoginsWithFollowingCredentials(List<String> userCredentials) {
+        loginPage.login(userCredentials.get(0),userCredentials.get(1));
     }
 }

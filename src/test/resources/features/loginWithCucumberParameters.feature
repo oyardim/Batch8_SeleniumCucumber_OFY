@@ -9,7 +9,7 @@ Feature: Login Tests with cucumber parameters
 #    Given The user is on the login page
     When The user logs in with using credentials "ofyardim@hotmail.com" and "Of567248*"
     Then The user should be able to login
-    And Verify that username "dd61" is displayed on dashboard page
+    And Verify that username "dd" is displayed on dashboard page
 
   @number
   Scenario: Login as mike - Cucumber Parameters
@@ -22,6 +22,7 @@ Feature: Login Tests with cucumber parameters
 #   class task
 #   login as Rosa with cucumber parameters
 
+  @c_maven_2
   Scenario: Login as Rosa - Cucumber Parameters
 #    Given The user is on the login page
     When The user logs in with using credentials "rosa@test.com" and "Test123456"
@@ -40,7 +41,7 @@ Feature: Login Tests with cucumber parameters
       | mike@gmail.com       | mike1234   | mike |
       | ofyardim@hotmail.com | Of567248*  | dd   |
 
-
+  @c_maven
   Scenario: Login with list
     When The user logins with following credentials
       | ofyardim@hotmail.com |
@@ -57,4 +58,4 @@ Feature: Login Tests with cucumber parameters
       | userEmail            | password   |
       | rosa@test.com        | Test123456 |
       | mike@gmail.com       | mike1234   |
-      | ofyardim@hotmail.com61 | Of567248*  |
+      | ofyardim@hotmail.com | Of567248*  |

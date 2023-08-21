@@ -19,6 +19,9 @@ public class AddEducationPage extends BasePage{
     @FindBy(xpath = "//div[@id='education-add']//label[not(@for='current')]")
     public List<WebElement> formLabels;
 
+    @FindBy(xpath = "//div[@id='education-add']//label")
+    public List<WebElement> formLabelsWithCurrentDate;
+
     public void fillingAddEducationForm(String schoolName,String degree,String study,String fromDate, String toDate,String description){
         Actions actions = new Actions(Driver.get());
 

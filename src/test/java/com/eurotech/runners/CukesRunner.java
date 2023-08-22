@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "com/eurotech/stepDefinitions",
         dryRun = false,
-        tags = "@c_education"
+        tags = "@wip"
 )
 public class CukesRunner {
 

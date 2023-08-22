@@ -4,6 +4,7 @@ import com.eurotech.pages.LoginPage;
 import com.eurotech.utilities.BrowserUtils;
 import com.eurotech.utilities.ConfigurationReader;
 import com.eurotech.utilities.Driver;
+import com.eurotech.utilities.ExcelUtil;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -35,7 +36,7 @@ public class Login_StepDefs {
 
     @When("The user enters mike's credentials")
     public void the_user_enters_mike_s_credentials() {
-        loginPage.login("mike@gmail.com","mike1234");
+        loginPage.login("mike@gmail.com", "mike1234");
     }
 
     @When("The user enters Rosa's credentials")
@@ -77,6 +78,22 @@ public class Login_StepDefs {
 
     @When("The user logins with following credentials")
     public void theUserLoginsWithFollowingCredentials(List<String> userCredentials) {
-        loginPage.login(userCredentials.get(0),userCredentials.get(1));
+        loginPage.login(userCredentials.get(0), userCredentials.get(1));
+    }
+
+    @When("The user logins with using excel file: {string}, {string} and {int}")
+    public void the_user_logins_with_using_excel_file_and(String path, String sheetName, Integer row) {
+        ExcelUtil excelUtil = new ExcelUtil(path, sheetName);
+        List<Map<String, String>> dataList = excelUtil.getDataList();
+
+        String yourEmail = dataList.get(row).get("Your Email");
+        String yourName = dataList.get(row).get("Your Name");
+        String password = dataList.get(row).get("Password");
+
+        System.out.println("yourEmail = " + yourEmail);
+        System.out.println("yourName = " + yourName);
+        System.out.println("Password = " +password);
+
+        loginPage.login(yourEmail, password);
     }
 }
